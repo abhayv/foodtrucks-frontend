@@ -1,0 +1,14 @@
+html, body, #map-canvas {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+#spin {
+    position: fixed;
+    height: 4%;
+    width: 4%;
+    top: 48%;
+    left: 48%;
+}
+
