@@ -2,27 +2,30 @@
  *
  * Author: abhay.vardhan@gmail.com
  *
+ * Main js file which populates the map with food truck markers.
  */
 
-// Assumes that maps.googleapis.com/maps/api/js?v=3 is available
-
-(function () { // self-invoking, anonymous function for encapsulation
+var mapExports = (function () { // self-invoking, anonymous function for encapsulation
 
   var DEFAULT_LAT = 37.7833;
   var DEFAULT_LONG = -122.4167;
   var DEFAULT_ZOOM = 14;
   var DEFAULT_SEARCH = '';
-  var DEFAULT_SQUARE_SIDE_MILES = 2; // find places in a square of 10 miles with the currect location in the center
-  var DEBUG = false;
+  var DEFAULT_SQUARE_SIDE_MILES = 1; // find places in a square of 1 mile with the currect location in the center
 
   /* Global map variable which holds the Google map object */
   var map;
-  var spinner;
+
+  // Spinner to show while waiting for loads
+  var spinner = {stop: function(){}, spin: function(){}}; // no op value to allow testing.
 
   // The current set of food trucks shown
   var currentFoodTrucks = [];
 
+  // Current user location
   var currentLocationMarker;
+
+  // Current query set by the user
   var currentQuery = DEFAULT_SEARCH;
 
   /**
@@ -61,22 +64,19 @@
     currentLocationMarker = marker;
 
     spinner.stop();
-    search(currentQuery, lat, lng);
+    search(currentQuery, lat, lng, processDataItem);
 
-    console.log("Adding listener");
-
+    // Watch for the change in location by the user
     google.maps.event.addListener(marker, 'dragend', function(evt) {
-      console.log('Dragged to ' +  evt.latLng.lat() + ' ' + evt.latLng.lng());
-      search(currentQuery, evt.latLng.lat(), evt.latLng.lng());
+      search(currentQuery, evt.latLng.lat(), evt.latLng.lng(), processDataItem);
     });
   }
 
   /**
    * Get current location of the user using browser's geolocation support. If successful, display a home marker
-   * for users location.
+   * for users location and do search.
    */
   function getCurrentLocation() {
-    // Check to see if this browser supports geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
           setLocation(position.coords.latitude, position.coords.longitude);
@@ -95,12 +95,59 @@
   }
 
   /**
+   * Calculates a square area around a point with 'edge'. Returns an array
+   * [southPoint Lat, westPoint Long, northPoint Lat, eastPoint Long]
+   * @param nearLat
+   * @param nearLong
+   */
+  function squareAroundPoint(nearLat, nearLong, edge) {
+    // Ideally, we should do a geospatial query for a circle around the target point. We approximate this
+    // by a square.
+    var dist = edge / 2 * 1609.34; // convert miles to meters
+    var point = new google.maps.LatLng(nearLat, nearLong);
+    var eastPoint = google.maps.geometry.spherical.computeOffset(point, dist, 90.0);
+    var westPoint = google.maps.geometry.spherical.computeOffset(point, dist, 270.0);
+    var northPoint = google.maps.geometry.spherical.computeOffset(point, dist, 0.0);
+    var southPoint = google.maps.geometry.spherical.computeOffset(point, dist, 180.0);
+    console.log([nearLat, nearLong, edge]);
+    return [southPoint.lat(), westPoint.lng(), northPoint.lat(), eastPoint.lng()];
+  }
+
+  /**
+   * Given a particular json result for a food truck, process it and add it to the map
+   * @param dataI
+   */
+  function processDataItem(dataI) {
+    // We could add various bits of information about the food truck here.
+    var contentString = dataI.applicant + '<br/>' + dataI.fooditems;
+    var title = dataI.applicant;
+    var latLng = new google.maps.LatLng(dataI.latitude, dataI.longitude);
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString,
+      maxWidth: 200
+    });
+
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      title: title
+    });
+    currentFoodTrucks.push(marker);
+
+    google.maps.event.addListener(marker, 'click', function () {
+      infowindow.open(map, marker);
+    });
+  }
+
+  /**
    * Search
    * @param query to search
    * @param nearLat Latitiude of location near which to search
    * @param nearLong Longitude of location near which to search
+   * @param processor: function to call to process a json item representing a food truck
    */
-  function search(query, nearLat, nearLong) {
+  function search(query, nearLat, nearLong, processor) {
     console.log("Searching " + query +  " " + nearLat + " " + nearLong);
     spinner.spin();
 
@@ -110,57 +157,12 @@
     }
     currentFoodTrucks = [];
 
-    // Ideally, we should do a geospatial query for a circle around the target point. We approximate this
-    // by a square.
-    var dist = DEFAULT_SQUARE_SIDE_MILES / 2 * 1609.34; // convert miles to meters
-    var point = new google.maps.LatLng(nearLat, nearLong);
-    var eastPoint = google.maps.geometry.spherical.computeOffset(point, dist, 90.0);
-    var westPoint = google.maps.geometry.spherical.computeOffset(point, dist, 270.0);
-    var northPoint = google.maps.geometry.spherical.computeOffset(point, dist, 0.0);
-    var southPoint = google.maps.geometry.spherical.computeOffset(point, dist, 180.0);
+    var squareArea = squareAroundPoint(nearLat, nearLong, DEFAULT_SQUARE_SIDE_MILES);
 
-    if (DEBUG) {
-      // show a rectangle to check
-      var rectangle = new google.maps.Rectangle({
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35,
-        map: map,
-        bounds: new google.maps.LatLngBounds(
-          new google.maps.LatLng(southPoint.lat(), westPoint.lng()),
-          new google.maps.LatLng(northPoint.lat(), eastPoint.lng()))
-      });
-    }
-
-    getFoodTrucksMatching(query, southPoint.lat(), westPoint.lng(), northPoint.lat(), eastPoint.lng(), function(data) {
+    getFoodTrucksMatching(query, squareArea[0], squareArea[1], squareArea[2], squareArea[3], function(data) {
       for (var i = 0, j = data.length; i < j; i++) {
-        (function () { // self-invoking, anonymous function for encapsulation
-
-          var contentString = data[i].applicant + '<br/>' + data[i].fooditems;
-        var title = data[i].applicant;
-        var latLng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString,
-          maxWidth: 200
-        });
-
-        var marker = new google.maps.Marker({
-          position: latLng,
-          map: map,
-          title: title
-        });
-        currentFoodTrucks.push(marker);
-
-        google.maps.event.addListener(marker, 'click', function () {
-          infowindow.open(map, marker);
-        });
-        }());
-
+        processor(data[i])
       }
-
       spinner.stop();
     });
   }
@@ -182,21 +184,29 @@
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     getCurrentLocation();
+
+    // setup up event listeners for search box
     $('#search input').keypress(function (e) {
       if (e.which == 13) {
         currentQuery = $(this).val();
         console.log("query " + currentQuery);
-        search(currentQuery, currentLocationMarker.getPosition().lat(), currentLocationMarker.getPosition().lng());
+        search(currentQuery, currentLocationMarker.getPosition().lat(),
+          currentLocationMarker.getPosition().lng(), processDataItem);
         e.preventDefault();
       }
     });
     $('.search-button').click(function (e) {
       currentQuery = $('#search input').val();
       console.log("query " + currentQuery);
-      search(currentQuery, currentLocationMarker.getPosition().lat(), currentLocationMarker.getPosition().lng());
+      search(currentQuery, currentLocationMarker.getPosition().lat(),
+        currentLocationMarker.getPosition().lng(), processDataItem);
     });
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);
 
+  return {
+    search: search,
+    squareAroundPoint: squareAroundPoint
+  };
 }());

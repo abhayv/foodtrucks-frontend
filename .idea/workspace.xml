@@ -20,19 +20,39 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="253" selection-end="253" vertical-scroll-proportion="-4.375">
+            <state line="15" column="1" selection-start="732" selection-end="732" vertical-scroll-proportion="0.38527396">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="map.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="0" selection-start="5053" selection-end="5053" vertical-scroll-proportion="0.7764901">
+            <state line="13" column="32" selection-start="402" selection-end="402" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpecRunner.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/SpecRunner.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="53" selection-start="584" selection-end="584" vertical-scroll-proportion="-7.5">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MapSpec.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/spec/MapSpec.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="33" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -43,7 +63,7 @@
       <file leaf-file-name="client_api_test.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/client_api_test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
+            <state line="4" column="42" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -52,7 +72,7 @@
       <file leaf-file-name="client_api.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/client_api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="90" selection-start="782" selection-end="782" vertical-scroll-proportion="0.0">
+            <state line="29" column="0" selection-start="957" selection-end="957" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -103,9 +123,11 @@
         <option value="$PROJECT_DIR$/js/food_data.js" />
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/client_api_test.js" />
-        <option value="$PROJECT_DIR$/js/client_api.js" />
         <option value="$PROJECT_DIR$/js/map.js" />
+        <option value="$PROJECT_DIR$/js/client_api_test.js" />
+        <option value="$PROJECT_DIR$/tests/SpecRunner.html" />
+        <option value="$PROJECT_DIR$/tests/spec/MapSpec.js" />
+        <option value="$PROJECT_DIR$/js/client_api.js" />
       </list>
     </option>
   </component>
@@ -156,6 +178,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="challenge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="challenge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="challenge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="challenge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="challenge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spec" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -296,6 +350,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="14" selection-start="302" selection-end="302" vertical-scroll-proportion="-6.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/consolelog.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="1955" selection-start="2160" selection-end="2160" vertical-scroll-proportion="0.0">
@@ -312,42 +373,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/style.css">
+    <entry file="file://$PROJECT_DIR$/tests/SpecRunner.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="14" selection-start="302" selection-end="302" vertical-scroll-proportion="-6.0">
+        <state line="12" column="53" selection-start="584" selection-end="584" vertical-scroll-proportion="-7.5">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/client_api_test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="253" selection-end="253" vertical-scroll-proportion="-4.375">
+        <state line="4" column="42" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/client_api.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="90" selection-start="782" selection-end="782" vertical-scroll-proportion="0.0">
+        <state line="29" column="0" selection-start="957" selection-end="957" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/client_api_test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="0" selection-start="5053" selection-end="5053" vertical-scroll-proportion="0.7764901">
+        <state line="13" column="32" selection-start="402" selection-end="402" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/spec/MapSpec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="33" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="1" selection-start="732" selection-end="732" vertical-scroll-proportion="0.38527396">
+          <folding />
         </state>
       </provider>
     </entry>

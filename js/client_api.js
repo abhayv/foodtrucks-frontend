@@ -19,8 +19,7 @@ var HOSTNAME = "localhost:8080"
 function getFoodTrucksMatching(query, southWestLat, southWestLng, northEastLat, northEastLng, callback) {
   var searchAPI = "http://" + HOSTNAME + "/search?jsoncallback=?";
 
-  console.log("incoming " + [query, southWestLat, southWestLng, northEastLat, northEastLng])
-  // In production code, we will handle the error cases here.
+  // In production code, we will also handle the error cases here.
   $.getJSON(searchAPI, {
     query: query,
     southWestLat: southWestLat,
@@ -28,7 +27,6 @@ function getFoodTrucksMatching(query, southWestLat, southWestLng, northEastLat, 
     northEastLat: northEastLat,
     northEastLng: northEastLng
   }).done(function (data) {
-      console.log("Data received " + data);
       callback(data);
     });
 }

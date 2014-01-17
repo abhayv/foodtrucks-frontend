@@ -1,8 +1,8 @@
 // Sample data downloaded for testing
 
 function getFoodTrucksMatching(query, southWestLat, southWestLng, northEastLat, northEastLng, callback) {
-  var random = Math.floor((Math.random() * 100) + 1);
-  callback(sampleFoodTrucksData.slice(random, random + 2));
+  console.log("Incoming " + [query, southWestLat, southWestLng, northEastLat, northEastLng]);
+  callback(sampleFoodTrucksData.slice(1,2));
 }
 
 var sampleFoodTrucksData = [
