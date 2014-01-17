@@ -7,8 +7,8 @@
 
 /* In a larger project, one would use Javascript modules to encapsulate the API properly, but keep it simple for now */
 
-var HOSTNAME = "sf-abhay.appspot.com";
-//var HOSTNAME = "localhost:8080";
+//var HOSTNAME = "sf-abhay.appspot.com";
+var HOSTNAME = "localhost:8080";
 /**
  * Call the server API to get the food trucks information. In real world, there will be an API token but we ignore
  * that for now.
@@ -27,7 +27,11 @@ function getFoodTrucksMatching(query, southWestLat, southWestLng, northEastLat, 
     southWestLng: southWestLng,
     northEastLat: northEastLat,
     northEastLng: northEastLng
-  }).done(function (data) {
-      callback(data);
+  }).done(function(response) {
+      if (response.success) {
+        callback(response.data);
+      } else {
+        console.error("Error in search");
+      }
     });
 }

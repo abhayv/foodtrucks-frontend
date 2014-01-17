@@ -17,6 +17,12 @@ Future UI improvements:
 1) Add a drop down for miles to look from the current location.
 2) Allow a search box to set the current location in addition to dragging the marker.
 
+Testing
+-------
+
+run:
+nosetests
+
 Browser testing:
 The app has been mostly tested with Chrome and Safari on Mac OS X and Chrome on Android. In future, we can test other
 browsers. We use some CSS3 but most modern browsers should be supported.
