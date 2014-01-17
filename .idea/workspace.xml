@@ -20,19 +20,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="1" selection-start="732" selection-end="732" vertical-scroll-proportion="-9.375">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="map.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="203" column="83" selection-start="6612" selection-end="6612" vertical-scroll-proportion="0.6299342">
+            <state line="11" column="23" selection-start="341" selection-end="341" vertical-scroll-proportion="0.2713816">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -414,7 +405,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="83" selection-start="6612" selection-end="6612" vertical-scroll-proportion="0.6299342">
+        <state line="11" column="23" selection-start="341" selection-end="341" vertical-scroll-proportion="0.2713816">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

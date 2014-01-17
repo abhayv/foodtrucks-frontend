@@ -9,7 +9,7 @@ var mapExports = (function () { // self-invoking, anonymous function for encapsu
 
   var DEFAULT_LAT = 37.7833;
   var DEFAULT_LONG = -122.4167;
-  var DEFAULT_ZOOM = 14;
+  var DEFAULT_ZOOM = 15;
   var DEFAULT_SEARCH = '';
   var DEFAULT_SQUARE_SIDE_MILES = 1; // find places in a square of 1 mile with the currect location in the center
 
