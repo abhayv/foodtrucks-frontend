@@ -201,6 +201,7 @@ var mapExports = (function () { // self-invoking, anonymous function for encapsu
       search(currentQuery, currentLocationMarker.getPosition().lat(),
         currentLocationMarker.getPosition().lng(), processDataItem);
     });
+    // We could also add an option for how far to look around the current location.
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);

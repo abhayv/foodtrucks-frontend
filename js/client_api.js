@@ -7,7 +7,8 @@
 
 /* In a larger project, one would use Javascript modules to encapsulate the API properly, but keep it simple for now */
 
-var HOSTNAME = "localhost:8080"
+var HOSTNAME = "sf-abhay.appspot.com";
+//var HOSTNAME = "localhost:8080";
 /**
  * Call the server API to get the food trucks information. In real world, there will be an API token but we ignore
  * that for now.
