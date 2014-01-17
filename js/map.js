@@ -8,6 +8,13 @@
 
 (function () { // self-invoking, anonymous function for encapsulation
 
+  var DEFAULT_LAT = 37.7833;
+  var DEFAULT_LONG = -122.4167;
+  var DEFAULT_ZOOM = 14;
+  var DEFAULT_SEARCH = '';
+  var DEFAULT_SQUARE_SIDE_MILES = 2; // find places in a square of 10 miles with the currect location in the center
+  var DEBUG = false;
+
   /* Global map variable which holds the Google map object */
   var map;
   var spinner;
@@ -16,11 +23,7 @@
   var currentFoodTrucks = [];
 
   var currentLocationMarker;
-
-  var DEFAULT_LAT = 37.7833;
-  var DEFAULT_LONG = -122.4167;
-  var DEFAULT_ZOOM = 14;
-  var DEFAULT_SEARCH = '';
+  var currentQuery = DEFAULT_SEARCH;
 
   /**
    * Set the current location and do a search for food trucks around that.
@@ -28,12 +31,11 @@
    * @param lng
    */
   function setLocation(lat, lng) {
-    var contentString = 'Drag this to your location';
+    var contentString = '<div>Drag this to your location</div>';
     var myLatlng = new google.maps.LatLng(lat, lng);
 
     var infowindow = new google.maps.InfoWindow({
-      content:contentString,
-      maxWidth:200
+      content: contentString
     });
 
     var myLocationIcon = {
@@ -48,20 +50,24 @@
       draggable: true,
       title: 'Position your location'
     });
-    infowindow.open(map, marker);
+
+    setTimeout(function(){
+      infowindow.open(map, marker);
+    }, 1000);
+
     google.maps.event.addListener(marker, 'click', function() {
       infowindow.open(map, marker);
     });
     currentLocationMarker = marker;
 
     spinner.stop();
-    search(DEFAULT_SEARCH, lat, lng);
+    search(currentQuery, lat, lng);
 
     console.log("Adding listener");
 
     google.maps.event.addListener(marker, 'dragend', function(evt) {
       console.log('Dragged to ' +  evt.latLng.lat() + ' ' + evt.latLng.lng());
-      search(DEFAULT_SEARCH, evt.latLng.lat(), evt.latLng.lng());
+      search(currentQuery, evt.latLng.lat(), evt.latLng.lng());
     });
   }
 
@@ -89,29 +95,6 @@
   }
 
   /**
-   * Set zoom level so all markers are visible. This is a very simple implementation that simply goes up
-   * a level to try including the markers. A more sophisticated version would actually calculate the exact zoom level
-   * that would be needed.
-   */
-  function setZoomLevelForBounds(bounds) {
-    try {
-      console.log("Map " +  map);
-      if (typeof map.getBounds == "undefined") {
-        return;
-      }
-      var mapBounds = map.getBounds();
-      if (!mapBounds.contains(bounds)) {
-        var zoomLevel = map.getZoom();
-        console.log("Resetting zoom level " +  zoomLevel);
-        if (zoomLevel > 1) {
-          map.setZoom(zoomLevel - 1);
-        }
-      }
-    } catch(err) {
-      console.log("Error in setZoomLevelForBounds " + err);
-    }
-  }
-  /**
    * Search
    * @param query to search
    * @param nearLat Latitiude of location near which to search
@@ -127,16 +110,37 @@
     }
     currentFoodTrucks = [];
 
-    var bounds = new google.maps.LatLngBounds();
-    bounds.extend(currentLocationMarker.getPosition());
+    // Ideally, we should do a geospatial query for a circle around the target point. We approximate this
+    // by a square.
+    var dist = DEFAULT_SQUARE_SIDE_MILES / 2 * 1609.34; // convert miles to meters
+    var point = new google.maps.LatLng(nearLat, nearLong);
+    var eastPoint = google.maps.geometry.spherical.computeOffset(point, dist, 90.0);
+    var westPoint = google.maps.geometry.spherical.computeOffset(point, dist, 270.0);
+    var northPoint = google.maps.geometry.spherical.computeOffset(point, dist, 0.0);
+    var southPoint = google.maps.geometry.spherical.computeOffset(point, dist, 180.0);
 
-    getFoodTrucksMatching('', function(data) {
+    if (DEBUG) {
+      // show a rectangle to check
+      var rectangle = new google.maps.Rectangle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+          new google.maps.LatLng(southPoint.lat(), westPoint.lng()),
+          new google.maps.LatLng(northPoint.lat(), eastPoint.lng()))
+      });
+    }
+
+    getFoodTrucksMatching(query, southPoint.lat(), westPoint.lng(), northPoint.lat(), eastPoint.lng(), function(data) {
       for (var i = 0, j = data.length; i < j; i++) {
-        var contentString = 'test';
-        var title = 'test title';
-        var latLng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
+        (function () { // self-invoking, anonymous function for encapsulation
 
-        bounds.extend(latLng);
+          var contentString = data[i].applicant + '<br/>' + data[i].fooditems;
+        var title = data[i].applicant;
+        var latLng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString,
@@ -153,9 +157,9 @@
         google.maps.event.addListener(marker, 'click', function () {
           infowindow.open(map, marker);
         });
-      }
+        }());
 
-      setZoomLevelForBounds(bounds);
+      }
 
       spinner.stop();
     });
@@ -178,6 +182,19 @@
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     getCurrentLocation();
+    $('#search input').keypress(function (e) {
+      if (e.which == 13) {
+        currentQuery = $(this).val();
+        console.log("query " + currentQuery);
+        search(currentQuery, currentLocationMarker.getPosition().lat(), currentLocationMarker.getPosition().lng());
+        e.preventDefault();
+      }
+    });
+    $('.search-button').click(function (e) {
+      currentQuery = $('#search input').val();
+      console.log("query " + currentQuery);
+      search(currentQuery, currentLocationMarker.getPosition().lat(), currentLocationMarker.getPosition().lng());
+    });
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);

@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <title>Food truck locations in San Francisco</title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <!-- MIT license from https://github.com/patik/console.log-wrapper, adds console.log for all browsers -->
     <script src="js/consolelog.min.js"></script>
@@ -23,5 +24,13 @@
 <body>
 <div id="map-canvas"></div>
 <div id="spin"></div>
+<div id="searchbox">
+    Food Trucks in San Francisco
+    <form id="search">
+        <input class="search-input" type="text" name="search" placeholder="Filter by search"/>
+        <button type="button" name="" value="" class="search-button">Go</button>
+    </form>
+</div>
+
 </body>
 </html>

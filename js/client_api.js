@@ -7,7 +7,28 @@
 
 /* In a larger project, one would use Javascript modules to encapsulate the API properly, but keep it simple for now */
 
-function getFoodTrucksMatching(query, callback) {
-  var random = Math.floor((Math.random() * 100) + 1);
-  callback(sampleFoodTrucksData.slice(random, random + 2));
+var HOSTNAME = "localhost:8080"
+/**
+ * Call the server API to get the food trucks information. In real world, there will be an API token but we ignore
+ * that for now.
+ * @param query
+ * @param nearLat
+ * @param nearLong
+ * @param callback
+ */
+function getFoodTrucksMatching(query, southWestLat, southWestLng, northEastLat, northEastLng, callback) {
+  var searchAPI = "http://" + HOSTNAME + "/search?jsoncallback=?";
+
+  console.log("incoming " + [query, southWestLat, southWestLng, northEastLat, northEastLng])
+  // In production code, we will handle the error cases here.
+  $.getJSON(searchAPI, {
+    query: query,
+    southWestLat: southWestLat,
+    southWestLng: southWestLng,
+    northEastLat: northEastLat,
+    northEastLng: northEastLng
+  }).done(function (data) {
+      console.log("Data received " + data);
+      callback(data);
+    });
 }
